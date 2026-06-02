@@ -3,108 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cocillos Kleiderbestellung Demo</title>
+  <title>Cocillos Kleiderbestellung Demo v4</title>
   <style>
-    :root { --bg:#111; --card:#1b1b1b; --muted:#aaa; --accent:#d10; --line:#333; }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family: Arial, sans-serif; background:var(--bg); color:#fff; }
-    header { padding:24px 16px; text-align:center; background:#000; border-bottom:3px solid var(--accent); }
-    header h1 { margin:0 0 6px; font-size:28px; }
-    header p { margin:0; color:var(--muted); }
-    main { max-width:1200px; margin:0 auto; padding:22px; }
-    .intro { background:#181818; border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:22px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; }
-    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
-    .img { aspect-ratio: 4/3; background:#2d2d2d; display:flex; align-items:center; justify-content:center; color:#999; text-align:center; padding:18px; }
-    .img small { display:block; margin-top:8px; color:#777; }
-    .content { padding:16px; }
-    .content h2 { font-size:18px; margin:0 0 4px; }
-    .sku { color:var(--muted); font-size:13px; margin-bottom:10px; }
-    .price { color:#ff5b5b; font-weight:bold; font-size:20px; margin:10px 0; }
-    label { display:block; font-size:13px; color:#ddd; margin-top:10px; }
-    select, input { width:100%; padding:10px; margin-top:5px; border:0; border-radius:8px; background:#fff; color:#000; }
-    .cart { position:sticky; bottom:0; margin-top:28px; background:#050505; border:1px solid var(--line); border-radius:14px; padding:18px; box-shadow:0 -8px 25px rgba(0,0,0,.35); }
-    .cart h2 { margin:0 0 8px; }
-    .cart-list { color:#ddd; line-height:1.6; }
-    button { width:100%; margin-top:12px; padding:14px; border:0; border-radius:10px; background:var(--accent); color:white; font-size:16px; font-weight:bold; cursor:pointer; }
-    .note { color:#aaa; font-size:13px; margin-top:8px; }
+    :root{--bg:#08080a;--card:#17171d;--card2:#22222a;--text:#f7f7f8;--muted:#a8a8b3;--accent:#d41420;--accent2:#ff4b55;--line:rgba(255,255,255,.11);--gold:#d8b15a;--radius:22px;--shadow:0 20px 60px rgba(0,0,0,.38)}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:radial-gradient(circle at top left,rgba(212,20,32,.22),transparent 38%),radial-gradient(circle at top right,rgba(216,177,90,.12),transparent 30%),var(--bg);color:var(--text)}
+    .hero{position:relative;overflow:hidden;padding:42px 18px 30px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,rgba(0,0,0,.78),rgba(24,24,30,.92))}.hero:after{content:"";position:absolute;inset:auto -10% -64px -10%;height:120px;background:linear-gradient(90deg,transparent,var(--accent),transparent);filter:blur(42px);opacity:.36}.hero-inner{max-width:1180px;margin:auto;display:grid;grid-template-columns:1.5fr .75fr;gap:24px;align-items:center;position:relative;z-index:1}.badge{display:inline-flex;gap:9px;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.06);padding:8px 12px;border-radius:999px;color:#eee;font-size:13px;margin-bottom:14px}h1{font-size:clamp(34px,6vw,68px);line-height:.95;margin:0 0 12px;letter-spacing:-2px}.red{color:var(--accent2)}.lead{max-width:680px;color:#d7d7dc;font-size:17px;line-height:1.55;margin:0}.hero-panel{border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);backdrop-filter:blur(10px)}.hero-panel strong{font-size:30px;display:block}.hero-panel span{color:var(--muted);font-size:14px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.step{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:16px;padding:12px;font-size:13px;color:#ddd}.step b{display:block;color:#fff;margin-bottom:4px}
+    main{max-width:1180px;margin:auto;padding:24px 18px 112px}.toolbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:6px 0 20px;flex-wrap:wrap}.search{flex:1;min-width:240px;border:1px solid var(--line);background:rgba(255,255,255,.07);border-radius:16px;padding:13px 15px;color:white;font-size:15px}.pill{border:1px solid var(--line);background:rgba(255,255,255,.06);padding:10px 12px;border-radius:999px;color:var(--muted);font-size:13px}.customer{margin:28px 0;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:var(--radius);padding:18px}.customer h2{margin:0 0 12px}.customer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.22);transition:.18s transform,.18s border-color}.card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.22)}.img{height:226px;background:linear-gradient(135deg,#2b2b33,#121217);display:flex;align-items:center;justify-content:center;text-align:center;color:#b7b7bf;position:relative;overflow:hidden}.img:before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(212,20,32,.18);filter:blur(28px)}.img span{position:relative;z-index:1;font-weight:800}.img small{display:block;color:#85858f;font-weight:400;margin-top:8px}.img img{width:100%;height:100%;object-fit:contain;padding:18px;background:white}.content{padding:18px}.topline{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.content h2{font-size:18px;line-height:1.15;margin:0 0 7px}.sku{color:var(--muted);font-size:12px}.price{white-space:nowrap;color:#fff;background:rgba(212,20,32,.18);border:1px solid rgba(255,75,85,.35);padding:8px 10px;border-radius:999px;font-weight:800;font-size:14px}.desc{color:var(--muted);font-size:13px;line-height:1.45;margin:12px 0 14px}.row{display:grid;grid-template-columns:1fr 96px;gap:10px}.row.three{grid-template-columns:1fr 1fr 96px}label{display:block;color:#dedee5;font-size:12px;font-weight:700;letter-spacing:.2px}select,input{width:100%;margin-top:6px;padding:11px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e0e13;color:#fff;outline:none}input[type="number"]{text-align:center}.stick{margin-top:10px}.stick input{border-color:rgba(216,177,90,.35)}
+    .checkout{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(1040px,calc(100% - 24px));z-index:10;background:rgba(5,5,7,.94);border:1px solid var(--line);border-radius:18px;box-shadow:0 -12px 42px rgba(0,0,0,.46);backdrop-filter:blur(14px);padding:10px 12px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.cart-title{font-weight:900;margin-bottom:2px;font-size:14px}.cart-list{color:#cfcfd6;font-size:12px;max-height:74px;overflow:auto;line-height:1.28}.cart-item{padding:3px 0;border-bottom:1px solid rgba(255,255,255,.07)}.cart-item:last-child{border-bottom:0}.cart-item span{color:#8f8f9a;font-size:11px}.total{font-size:19px;font-weight:950;text-align:right}.btn{margin-top:5px;width:100%;border:0;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ff3845);color:#fff;padding:10px 14px;font-weight:900;cursor:pointer;box-shadow:0 10px 20px rgba(212,20,32,.22)}.hint{color:#8e8e98;font-size:11px;margin-top:4px;text-align:right}
+    @media(max-width:780px){.hero-inner{grid-template-columns:1fr}.steps,.customer-grid{grid-template-columns:1fr}.row.three,.row{grid-template-columns:1fr}.checkout{grid-template-columns:1fr}.total{text-align:left}.hint{text-align:left}.img{height:200px}}
   </style>
 </head>
 <body>
-<header>
-  <h1>Guggenmusik Cocillos</h1>
-  <p>Kleiderbestellung 2026 · Demo-Shop</p>
-</header>
-<main>
-  <section class="intro">
-    <strong>Demo:</strong> Bilder sind Platzhalter. Später einfach die Bild-Dateien/URLs in den Produktdaten ersetzen.
-  </section>
-  <section class="grid" id="products"></section>
-  <section class="cart">
-    <h2>Bestellübersicht</h2>
-    <div class="cart-list" id="cartList">Noch keine Artikel ausgewählt.</div>
-    <h3 id="total">Total: CHF 0.00</h3>
-    <button onclick="submitDemo()">Bestellung absenden (Demo)</button>
-    <div class="note">In der echten Version wird hier an Google Forms oder Google Sheets übergeben.</div>
-  </section>
-</main>
+  <header class="hero"><div class="hero-inner"><div><div class="badge">🎺 Vereinsinterne Demo · keine echte Bestellung</div><h1>Cocillos <span class="red">Kleider</span><br>Bestellung 2026</h1><p class="lead">Eine simple Shop-Oberfläche für eure Sammelbestellung: Artikel anschauen, Schnitt/Grösse/Menge wählen, optional Stick erfassen und unten kompakt prüfen.</p><div class="steps"><div class="step"><b>1. Artikel wählen</b>Mit Platzhalterbildern</div><div class="step"><b>2. Daten prüfen</b>Kompakte Live-Übersicht</div><div class="step"><b>3. Absenden</b>Später an Google Sheets</div></div></div><div class="hero-panel"><span>Aktuelle Demo</span><strong id="heroCount">11 Produkte</strong><span>Preise und Bilder können jederzeit ersetzt werden.</span></div></div></header>
+  <main><div class="toolbar"><input class="search" id="search" placeholder="Produkt suchen, z.B. Softshell, Bauchtasche, 029360..." oninput="renderProducts()"><div class="pill">Bilder später austauschbar</div><div class="pill">Logo: Brust links · Stick oder Druck</div></div><section class="customer"><h2>Mitgliederdaten</h2><div class="customer-grid"><label>Vorname<input id="firstName" placeholder="Vorname"></label><label>Nachname<input id="lastName" placeholder="Nachname"></label><label>Telefon / E-Mail<input id="contact" placeholder="optional"></label></div></section><section class="customer" style="margin-top:14px"><h2>Veredelung</h2><p style="margin:0;color:var(--muted);font-size:13px;line-height:1.45">Bei Textilien wird standardmässig ein Logo auf Brust links berechnet. Pro Artikel kannst du Stick oder Druck wählen. Sobald du einen Namen eingibst, wird der passende Namens-Zuschlag automatisch ergänzt.</p></section><section class="grid" id="products"></section></main>
+  <section class="checkout"><div><div class="cart-title">Bestellübersicht</div><div class="cart-list" id="cartList">Noch keine Artikel ausgewählt.</div></div><div><div class="total" id="total">CHF 0.00</div><button class="btn" onclick="submitDemo()">Absenden</button><div class="hint">Demo: noch keine echte Übertragung</div></div></section>
 <script>
-const products = [
-  { name:'Clique New Classic-T', sku:'029360-99', price:9.90, image:'', sizes:['XS','S','M','L','XL','XXL','3XL','4XL'], cut:true, stick:true },
-  { name:'Clique Basic Hoody Full Zip Ladies', sku:'021035-99', price:35.00, image:'', sizes:['XS','S','M','L','XL','XXL'], cut:false, stick:true },
-  { name:'Clique Basic Hoody', sku:'021031-99', price:30.00, image:'', sizes:['XS','S','M','L','XL','XXL','3XL'], cut:false, stick:true },
-  { name:'Clique Basic Micro Fleece Jacket', sku:'023914-99', price:35.00, image:'', sizes:['XS','S','M','L','XL','XXL','3XL','4XL'], cut:true, stick:true },
-  { name:'Clique Classic Softshell Hoody', sku:'0200912-99', price:59.90, image:'', sizes:['XS','S','M','L','XL','XXL','3XL','4XL','5XL'], cut:true, stick:true },
-  { name:'James & Nicholson Daunenweste', sku:'JN1138 black', price:75.00, image:'', sizes:['S','M','L','XL','XXL','3XL'], cut:false, stick:true },
-  { name:'James & Nicholson Daunenjacke', sku:'JN1139 black', price:86.90, image:'', sizes:['S','M','L','XL','XXL'], cut:false, stick:true },
-  { name:'Werbeartikel Sonnenbrille', sku:'Standard schwarz', price:3.20, image:'', sizes:['one size'], cut:false, stick:false },
-  { name:'FlexFit Wooly Combed Cap', sku:'6277 blk/blk', price:23.90, image:'', sizes:['S/M','L/XL'], cut:false, stick:false },
-  { name:'BaseBag Bauchtasche', sku:'BG53 black', price:0.00, image:'', sizes:['one size'], cut:false, stick:false },
-  { name:'Clique Hubert w. Patch', sku:'024129 black', price:14.90, image:'', sizes:['one size'], cut:false, stick:false }
+const decorationPrices={stickLogo:9.90, printLogo:13.00, stickName:8.00, printName:10.00};
+const products=[
+ {name:'Clique New Classic-T',sku:'029360-99',price:9.90,image:'',variants:[{label:'Herren',sku:'029360-99',sizes:['XS','S','M','L','XL','XXL','3XL','4XL']},{label:'Damen',sku:'029361-99',sizes:['XS','S','M','L','XL','XXL']}],decor:true,desc:'Klassisches schwarzes T-Shirt. Herren- und Damenmodell über Schnitt wählbar.'},
+ {name:'Clique Basic Hoody Full Zip',sku:'021034/021035-99',price:35.00,image:'',variants:[{label:'Herren',sku:'021034-99',sizes:['XS','S','M','L','XL','XXL','3XL','4XL','5XL']},{label:'Damen',sku:'021035-99',sizes:['XS','S','M','L','XL']}],decor:true,desc:'Kapuzenjacke mit Reissverschluss. Schnitt und passende Grössen direkt auswählbar.'},
+ {name:'Clique Basic Hoody',sku:'021031-99',price:30.00,image:'',sizes:['XS','S','M','L','XL','XXL','3XL','4XL','5XL'],decor:true,desc:'Unisex Hoody in Schwarz für Vereinsauftritt und Alltag.'},
+ {name:'Clique Basic Micro Fleece Jacket',sku:'023914/023915-99',price:35.00,image:'',variants:[{label:'Herren',sku:'023914-99',sizes:['XS','S','M','L','XL','XXL','3XL','4XL']},{label:'Damen',sku:'023915-99',sizes:['XS','S','M','L','XL','XXL']}],decor:true,desc:'Fleecejacke mit Stehkragen. Herren- und Damenmodell zusammengeführt.'},
+ {name:'Clique Classic Softshell Hoody',sku:'0200912/0200917-99',price:59.90,image:'',variants:[{label:'Herren',sku:'0200912-99',sizes:['XS','S','M','L','XL','XXL','3XL','4XL','5XL']},{label:'Damen',sku:'0200917-99',sizes:['XS','S','M','L','XL','XXL','3XL']}],decor:true,desc:'Softshell-Kapuzenjacke, wasserabweisend und atmungsaktiv.'},
+ {name:'James & Nicholson Daunenweste',sku:'JN1137/JN1138 black',price:75.00,image:'',variants:[{label:'Herren',sku:'JN1138 black',sizes:['S','M','L','XL','XXL','3XL']},{label:'Damen',sku:'JN1137 black',sizes:['S','M','L','XL','XXL']}],decor:true,desc:'Leichte schwarze Daunenweste mit Herren- und Damenvariante.'},
+ {name:'James & Nicholson Daunenjacke',sku:'JN1139/JN1140 black',price:86.90,image:'',variants:[{label:'Herren',sku:'JN1140 black',sizes:['S','M','L','XL','XXL','3XL']},{label:'Damen',sku:'JN1139 black',sizes:['S','M','L','XL','XXL']}],decor:true,desc:'Warme Daunenjacke in Schwarz mit Herren- und Damenvariante.'},
+ {name:'FlexFit Wooly Combed Cap',sku:'6277 blk/blk',price:23.90,image:'',sizes:['S/M','L/XL'],decor:false,desc:'Schwarze Flexfit Cap mit geschlossenem Rücken.'},
+ {name:'Clique Hubert w. Patch',sku:'024129 black',price:14.90,image:'',sizes:['one size'],decor:false,desc:'Schwarze Mütze mit Patch / Stickfläche.'},
+ {name:'BaseBag Bauchtasche',sku:'BG53 black',price:0,image:'',sizes:['one size'],decor:false,desc:'Bauchtasche. Preis offen, später ergänzen.'},
+ {name:'Sonnenbrille',sku:'Standard schwarz',price:3.20,image:'',sizes:['one size'],decor:false,desc:'Schwarze Standard-Brille als Zusatzartikel.'}
 ];
-
+document.getElementById('heroCount').textContent=products.length+' Produkte';
+function money(n){return 'CHF '+n.toFixed(2)}
+function getSizes(p,i){const variantSelect=document.getElementById('variant-'+i); if(p.variants){const idx=variantSelect?parseInt(variantSelect.value):0; return p.variants[idx].sizes;} return p.sizes;}
+function getVariant(p,i){if(!p.variants) return null; const el=document.getElementById('variant-'+i); return p.variants[el?parseInt(el.value):0];}
+function updateSizeOptions(i){const p=products[i]; const sizeEl=document.getElementById('size-'+i); if(!sizeEl) return; const old=sizeEl.value; const sizes=getSizes(p,i); sizeEl.innerHTML=sizes.map(s=>`<option>${s}</option>`).join(''); if(sizes.includes(old)) sizeEl.value=old; updateCart();}
 function renderProducts(){
-  const root = document.getElementById('products');
-  root.innerHTML = products.map((p,i)=>`
-    <article class="card">
-      <div class="img">${p.image ? `<img src="${p.image}" alt="${p.name}" style="max-width:100%;max-height:100%;object-fit:contain">` : `Bild Platzhalter<br><small>${p.sku}</small>`}</div>
-      <div class="content">
-        <h2>${p.name}</h2>
-        <div class="sku">Art.-Nr. ${p.sku}</div>
-        <div class="price">${p.price ? 'CHF '+p.price.toFixed(2) : 'Preis offen'}</div>
-        ${p.cut ? `<label>Schnitt<select id="cut-${i}" onchange="updateCart()"><option>Herren</option><option>Damen</option></select></label>` : ''}
-        <label>Grösse<select id="size-${i}" onchange="updateCart()">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></label>
-        <label>Menge<input id="qty-${i}" type="number" min="0" value="0" onchange="updateCart()" oninput="updateCart()"></label>
-        ${p.stick ? `<label>Name für Stick<input id="stick-${i}" placeholder="optional" oninput="updateCart()"></label>` : ''}
-      </div>
-    </article>
-  `).join('');
+ const q=(document.getElementById('search').value||'').toLowerCase(); const root=document.getElementById('products');
+ root.innerHTML=products.map((p,i)=>({...p,i})).filter(p=>(p.name+p.sku+p.desc).toLowerCase().includes(q)).map(p=>`
+  <article class="card"><div class="img">${p.image?`<img src="${p.image}" alt="${p.name}">`:`<span>Produktbild<br><small>${p.sku}</small></span>`}</div><div class="content"><div class="topline"><div><h2>${p.name}</h2><div class="sku">Art.-Nr. ${p.sku}</div></div><div class="price">${p.price?money(p.price):'Preis offen'}</div></div><p class="desc">${p.desc}</p><div class="${p.variants?'row three':'row'}">${p.variants?`<label>Schnitt<select id="variant-${p.i}" onchange="updateSizeOptions(${p.i})">${p.variants.map((v,idx)=>`<option value="${idx}">${v.label}</option>`).join('')}</select></label>`:''}<label>Grösse<select id="size-${p.i}" onchange="updateCart()">${(p.variants?p.variants[0].sizes:p.sizes).map(s=>`<option>${s}</option>`).join('')}</select></label><label>Menge<input id="qty-${p.i}" type="number" min="0" value="0" oninput="updateCart()"></label></div>${p.decor?`<div class="stick"><label>Logo Brust links<select id="decor-${p.i}" onchange="updateCart()"><option value="stick">Stick + CHF ${decorationPrices.stickLogo.toFixed(2)}</option><option value="print">Druck + CHF ${decorationPrices.printLogo.toFixed(2)}</option></select></label><label style="margin-top:8px">Name optional<input id="name-${p.i}" placeholder="Name eingeben = Zuschlag" oninput="updateCart()"></label></div>`:''}</div></article>`).join('');
+ updateCart();
 }
-
-function updateCart(){
-  let lines = [];
-  let total = 0;
-  products.forEach((p,i)=>{
-    const qty = Number(document.getElementById(`qty-${i}`).value || 0);
-    if(qty > 0){
-      const size = document.getElementById(`size-${i}`).value;
-      const cutEl = document.getElementById(`cut-${i}`);
-      const stickEl = document.getElementById(`stick-${i}`);
-      const cut = cutEl ? ` · ${cutEl.value}` : '';
-      const stick = stickEl && stickEl.value ? ` · Stick: ${stickEl.value}` : '';
-      const lineTotal = qty * p.price;
-      total += lineTotal;
-      lines.push(`${p.name} · ${size}${cut}${stick} × ${qty} = CHF ${lineTotal.toFixed(2)}`);
-    }
-  });
-  document.getElementById('cartList').innerHTML = lines.length ? lines.map(l=>`<div>${l}</div>`).join('') : 'Noch keine Artikel ausgewählt.';
-  document.getElementById('total').textContent = `Total: CHF ${total.toFixed(2)}`;
-}
-
-function submitDemo(){
-  alert('Demo: In der echten Version wird diese Bestellung an Google Forms oder Google Sheets gesendet.');
-}
-
+function updateCart(){let lines=[],total=0; products.forEach((p,i)=>{const qtyEl=document.getElementById('qty-'+i); if(!qtyEl) return; const qty=Math.max(0,parseInt(qtyEl.value||0)); if(!qty) return; const size=document.getElementById('size-'+i)?.value||''; const variant=getVariant(p,i); let unit=p.price||0; let parts=[`Basis ${money(p.price||0)}`]; let extras=[]; if(p.decor){const mode=document.getElementById('decor-'+i)?.value||'stick'; const logoPrice=mode==='stick'?decorationPrices.stickLogo:decorationPrices.printLogo; const namePrice=mode==='stick'?decorationPrices.stickName:decorationPrices.printName; unit+=logoPrice; extras.push(`${mode==='stick'?'Stick':'Druck'} Brust links +${money(logoPrice)}`); const name=(document.getElementById('name-'+i)?.value||'').trim(); if(name){unit+=namePrice; extras.push(`Name "${name}" +${money(namePrice)}`);} } total+=qty*unit; lines.push(`<div class="cart-item"><b>${p.name}</b> · ${variant?variant.label+' · ':''}${size} · ${qty}x · <b>${money(qty*unit)}</b><br><span>${parts.concat(extras).join(' · ')}</span></div>`);}); document.getElementById('cartList').innerHTML=lines.length?lines.join(''):'Noch keine Artikel ausgewählt.'; document.getElementById('total').textContent=money(total);}
+function submitDemo(){const msg=document.getElementById('cartList').innerText; if(msg.startsWith('Noch keine')){alert('Bitte zuerst mindestens einen Artikel auswählen.');return;} alert('Demo-Bestellung:\n\n'+msg+'\n\n'+document.getElementById('total').innerText+'\n\nIn der echten Version wird dies an Google Sheets oder Forms gesendet.');}
 renderProducts();
 </script>
 </body>
