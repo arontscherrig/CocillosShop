@@ -1,160 +1,126 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cocillos Kleiderbestellung 2027</title>
-  <style>
-    :root{
-      --bg:#0d0d0f;--card:#18181b;--card2:#222228;--text:#f5f5f5;--muted:#b8b8c0;--red:#d71920;--red2:#ff3b3b;--line:#33333a;--green:#35c759;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#2a0d10 0,#0d0d0f 38%);color:var(--text)}
-    header{padding:28px 18px 18px;text-align:center;border-bottom:1px solid var(--line);background:rgba(0,0,0,.55);position:relative}
-    .brand{font-size:32px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin:0}
-    .subtitle{margin:8px 0 0;color:var(--muted)}
-    .top-actions{max-width:1160px;margin:16px auto 0;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-    .btn{border:0;border-radius:12px;padding:12px 16px;background:var(--red);color:#fff;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(215,25,32,.22)}
-    .btn.secondary{background:#2b2b31;box-shadow:none;border:1px solid #44444b}
-    .btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
-    .countdown-card{max-width:700px;margin:18px auto 0;background:linear-gradient(135deg,rgba(215,25,32,.2),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:18px;box-shadow:0 18px 50px rgba(0,0,0,.22)}
-    .countdown-title{font-size:13px;color:#fff;text-transform:uppercase;letter-spacing:.18em;font-weight:900;margin-bottom:12px}
-    .countdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .timebox{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px 8px}
-    .timebox strong{display:block;font-size:28px;line-height:1}.timebox span{display:block;color:var(--muted);font-size:12px;margin-top:5px;text-transform:uppercase}
-    .deadline{margin-top:12px;color:var(--muted);font-size:14px}.expired{color:#ff7070;font-weight:900}
-    main{max-width:1160px;margin:0 auto;padding:26px 16px 80px}
-    .intro{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:18px}.intro h2{margin:0;font-size:22px}.intro p{margin:5px 0 0;color:var(--muted)}
-    .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-    .card{background:linear-gradient(180deg,var(--card),#131316);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 16px 36px rgba(0,0,0,.22)}
-    .image{height:180px;background:linear-gradient(135deg,#303036,#17171b);display:flex;align-items:center;justify-content:center;color:#888;font-weight:800;text-align:center;padding:12px}
-    .content{padding:16px}.meta{display:flex;justify-content:space-between;gap:10px;align-items:start}.meta h3{margin:0;font-size:18px}.art{color:var(--muted);font-size:12px;margin-top:4px}.price{font-weight:900;color:#fff;background:#2b1114;border:1px solid rgba(215,25,32,.35);padding:8px 10px;border-radius:12px;white-space:nowrap}
-    label{display:block;color:var(--muted);font-size:12px;font-weight:800;margin:13px 0 6px;text-transform:uppercase;letter-spacing:.06em}
-    select,input{width:100%;padding:11px;border-radius:10px;border:1px solid #3a3a42;background:#0f0f12;color:#fff;font-size:14px}
-    .price-details{margin-top:12px;background:#101013;border:1px solid #2c2c34;border-radius:14px;padding:10px;font-size:13px;color:var(--muted)}
-    .price-details div{display:flex;justify-content:space-between;margin:4px 0}.price-details .sum{color:#fff;font-weight:900;border-top:1px solid #333;padding-top:8px;margin-top:8px}
-    .add{margin-top:12px;width:100%}.fixed-note{margin-top:10px;color:#aaa;font-size:12px;line-height:1.35}.fixed-note b{color:#fff}
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}.modal.open{display:flex}
-    .modal-box{width:min(900px,100%);max-height:90vh;overflow:auto;background:#151518;border:1px solid #3a3a42;border-radius:22px;padding:18px;box-shadow:0 24px 80px rgba(0,0,0,.5)}
-    .modal-head{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid #333;padding-bottom:12px}.modal-head h2{margin:0}.close{background:#2b2b31;border:1px solid #444;color:#fff;border-radius:10px;padding:9px 12px;cursor:pointer}
-    .cart-item{display:grid;grid-template-columns:70px 1fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid #2d2d33}.thumb{width:70px;height:58px;border-radius:12px;background:linear-gradient(135deg,#34343a,#18181d);display:flex;align-items:center;justify-content:center;color:#777;font-size:11px;text-align:center}.cart-item h4{margin:0 0 4px}.cart-item p{margin:2px 0;color:var(--muted);font-size:13px}.remove{background:transparent;color:#ff7070;border:1px solid #653;padding:8px;border-radius:9px;cursor:pointer}.total-line{display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin:16px 0}
-    .checkout{margin-top:14px;background:#101013;border:1px solid #303038;border-radius:16px;padding:14px}.checkout-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.status{margin-top:12px;color:var(--muted)}.success{color:var(--green);font-weight:900}.error{color:#ff7070;font-weight:900}
-    @media(max-width:700px){.countdown-grid{grid-template-columns:repeat(2,1fr)}.checkout-grid{grid-template-columns:1fr}.cart-item{grid-template-columns:56px 1fr}.cart-item .remove{grid-column:2}.intro{display:block}.brand{font-size:25px}}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cocillos Kleiderbestellung 2027</title>
+<style>
+:root{
+  --bg:#0b0b0d;--panel:#17171b;--panel2:#202027;--text:#f6f6f6;--muted:#aaa;--red:#d71920;--red2:#ff3b45;--line:#33333b;--green:#46d27c;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#24242c 0,#0b0b0d 42%);color:var(--text)}
+header{padding:34px 18px 18px;text-align:center;background:linear-gradient(180deg,#050505,#111116);border-bottom:1px solid var(--line)}
+.logo{font-size:42px;font-weight:900;letter-spacing:3px}.subtitle{color:var(--muted);margin-top:8px}.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 90px}
+.deadline{margin:18px auto 22px;max-width:720px;background:linear-gradient(135deg,#18181e,#101014);border:1px solid #363640;border-radius:20px;padding:20px;text-align:center;box-shadow:0 18px 45px rgba(0,0,0,.28)}
+.deadline small{color:var(--muted);letter-spacing:2px;font-weight:bold}.timer{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.timebox{background:#070708;border:1px solid #303038;border-radius:14px;padding:14px}.timebox b{font-size:24px}.timebox span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:24px 0}.topbar h2{margin:0}.cartBtn{background:var(--red);color:white;border:0;border-radius:999px;padding:13px 18px;font-weight:bold;cursor:pointer;box-shadow:0 10px 25px rgba(215,25,32,.25)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}.card{background:rgba(23,23,27,.95);border:1px solid #303039;border-radius:20px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.25)}
+.pic{height:185px;background:linear-gradient(135deg,#303039,#111);display:flex;align-items:center;justify-content:center;color:#bbb;font-weight:bold}.content{padding:16px}.content h3{margin:0 0 6px;font-size:20px}.art{color:var(--muted);font-size:12px;margin-bottom:10px}.desc{color:var(--muted);font-size:14px;line-height:1.4;min-height:38px}.config{margin-top:14px;border:1px solid #3a3a44;border-radius:16px;background:#101014;overflow:hidden}.config summary{list-style:none;cursor:pointer;padding:14px 15px;font-weight:900;display:flex;justify-content:space-between;align-items:center}.config summary::-webkit-details-marker{display:none}.config summary:after{content:'▾';color:var(--red2);font-size:18px}.config[open] summary:after{content:'▴'}.configInner{padding:0 14px 14px;border-top:1px solid #2c2c35}.priceTag{font-size:24px;font-weight:900;color:white;margin:12px 0}.priceTag small{font-size:12px;color:var(--muted);font-weight:400}
+label{display:block;color:#ddd;font-size:13px;margin-top:10px;margin-bottom:5px} select,input{width:100%;padding:11px;border-radius:10px;border:1px solid #383842;background:#0d0d10;color:white} input[type=number]{appearance:textfield}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.details{margin-top:12px;border:1px solid #363640;border-radius:14px;background:#111116;overflow:hidden}.details summary{cursor:pointer;padding:12px;font-weight:bold;color:#fff}.details .inner{padding:0 12px 12px;color:var(--muted);font-size:13px}.add{margin-top:14px;width:100%;border:0;border-radius:12px;background:linear-gradient(135deg,var(--red),#8f0f14);color:white;padding:13px;font-weight:900;cursor:pointer}.add:disabled{opacity:.45;cursor:not-allowed}.hint{color:var(--muted);font-size:12px;margin-top:8px;line-height:1.35}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}.modal.open{display:flex}.cart{width:min(760px,100%);max-height:90vh;overflow:auto;background:#15151a;border:1px solid #3a3a44;border-radius:22px;box-shadow:0 25px 80px rgba(0,0,0,.55)}.cartHead{display:flex;justify-content:space-between;align-items:center;padding:18px;border-bottom:1px solid var(--line)}.cartHead h2{margin:0}.close{background:#282832;color:white;border:0;border-radius:10px;padding:10px 12px;cursor:pointer}.cartBody{padding:18px}.cartItem{display:grid;grid-template-columns:58px 1fr auto;gap:12px;align-items:center;border-bottom:1px solid #2d2d35;padding:12px 0}.thumb{width:58px;height:58px;border-radius:12px;background:linear-gradient(135deg,#333,#111);display:flex;align-items:center;justify-content:center;font-size:18px}.cartItem b{display:block}.cartItem small{color:var(--muted)}.remove{background:none;color:#ff7878;border:0;cursor:pointer}.checkout{margin-top:18px;background:#101014;border:1px solid #33333b;border-radius:16px;padding:16px}.checkout h3{margin:0 0 10px}.submit{width:100%;margin-top:14px;border:0;border-radius:12px;padding:14px;background:var(--green);color:#08110b;font-weight:900;cursor:pointer}.status{margin-top:10px;color:var(--muted);font-size:13px}.total{font-size:24px;font-weight:900;text-align:right;margin-top:14px}.expired{opacity:.45;filter:grayscale(1)}
+@media(max-width:620px){.timer{grid-template-columns:repeat(2,1fr)}.topbar{position:sticky;top:0;background:#0b0b0dcc;backdrop-filter:blur(10px);padding:10px 0;z-index:5}.cartItem{grid-template-columns:48px 1fr}.cartItem .remove{grid-column:2;text-align:left}.row{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <header>
-  <h1 class="brand">Guggenmusik Cocillos</h1>
-  <p class="subtitle">Kleiderbestellung 2027</p>
-  <section class="countdown-card" id="countdownCard">
-    <div class="countdown-title">⏳ Bestellschluss in</div>
-    <div class="countdown-grid">
-      <div class="timebox"><strong id="days">--</strong><span>Tage</span></div>
-      <div class="timebox"><strong id="hours">--</strong><span>Stunden</span></div>
-      <div class="timebox"><strong id="minutes">--</strong><span>Minuten</span></div>
-      <div class="timebox"><strong id="seconds">--</strong><span>Sekunden</span></div>
-    </div>
-    <div class="deadline" id="deadlineText">Bestellschluss: 29. Januar 2027 • 23:59 Uhr</div>
-  </section>
-  <div class="top-actions"><button class="btn secondary" id="cartBtn">🛒 Warenkorb ansehen (0)</button></div>
+  <div class="logo">COCILLOS</div>
+  <div class="subtitle">Guggenmusik · Kleiderbestellung 2027</div>
 </header>
-<main>
-  <div class="intro"><div><h2>Produkte</h2><p>Artikel konfigurieren und bewusst in den Warenkorb legen.</p></div></div>
-  <div class="products" id="products"></div>
-</main>
+<div class="wrap">
+  <section class="deadline" id="deadlineBox">
+    <small>⏳ BESTELLSCHLUSS IN</small>
+    <div class="timer">
+      <div class="timebox"><b id="d">0</b><span>Tage</span></div>
+      <div class="timebox"><b id="h">0</b><span>Stunden</span></div>
+      <div class="timebox"><b id="m">0</b><span>Minuten</span></div>
+      <div class="timebox"><b id="s">0</b><span>Sekunden</span></div>
+    </div>
+    <div>29. Januar 2027 · 23:59 Uhr</div>
+  </section>
+  <div class="topbar"><h2>Produkte</h2><button class="cartBtn" onclick="openCart()">🛒 Warenkorb ansehen (<span id="cartCount">0</span>)</button></div>
+  <div class="grid" id="products"></div>
+</div>
+
 <div class="modal" id="cartModal">
-  <div class="modal-box">
-    <div class="modal-head"><h2>Warenkorb</h2><button class="close" id="closeCart">Schliessen</button></div>
-    <div id="cartItems"></div>
-    <div class="total-line"><span>Total</span><span id="cartTotal">CHF 0.00</span></div>
-    <div class="checkout">
-      <h3>Bestellung abschliessen</h3>
-      <div class="checkout-grid">
-        <div><label>Vorname</label><input id="firstName" placeholder="Vorname" /></div>
-        <div><label>Nachname</label><input id="lastName" placeholder="Nachname" /></div>
-        <div><label>E-Mail optional</label><input id="email" type="email" placeholder="name@beispiel.ch" /></div>
+  <div class="cart">
+    <div class="cartHead"><h2>Warenkorb</h2><button class="close" onclick="closeCart()">Schliessen</button></div>
+    <div class="cartBody">
+      <div id="cartItems"></div>
+      <div class="total">Total: CHF <span id="cartTotal">0.00</span></div>
+      <div class="checkout">
+        <h3>Bestellung abschliessen</h3>
+        <label>Vorname</label><input id="firstName" placeholder="Vorname" />
+        <label>Nachname</label><input id="lastName" placeholder="Nachname" />
+        <button class="submit" onclick="submitOrder()">Bestellung absenden</button>
+        <div class="status" id="status"></div>
       </div>
-      <p class="fixed-note">Veredelung ist in dieser Version fest vorgegeben: <b>Stick Brust links</b>. Sobald ein Name eingegeben ist, wird der Namensstick zusätzlich berechnet.</p>
-      <button class="btn add" id="submitOrder">Bestellung absenden</button>
-      <div class="status" id="status"></div>
     </div>
   </div>
 </div>
 <script>
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxKLNJgzRF5c_ltZOToYydm_7EOs003J2OUywhaJVqoDiaZBHSLlPx2iu08FC3nEZsy/exec";
-const DEADLINE = new Date("2027-01-29T23:59:59");
-const FIXED_FINISHING = "Stick Brust links";
-const LOGO_STICK_PRICE = 9.90;
-const NAME_STICK_PRICE = 8.00;
-let shopOpen = true;
-let cart = [];
+const FINISHING = "Stick Brust links";
+const LOGO_PRICE = 9.90;
+const NAME_PRICE = 8.00;
+const deadline = new Date("2027-01-29T23:59:59+01:00");
+let expired = false;
 const products = [
-  {name:"T-Shirt Classic", articleNumber:"029360-99", basePrice:9.90, image:"Produktbild", genders:["Herren","Damen"], sizes:["XS","S","M","L","XL","XXL","3XL","4XL"], nameAllowed:true},
-  {name:"Kapuzenjacke Basic", articleNumber:"021035-99", basePrice:35.00, image:"Produktbild", genders:["Herren","Damen"], sizes:["XS","S","M","L","XL","XXL","3XL"], nameAllowed:true},
-  {name:"Hoody Classic", articleNumber:"021031-99", basePrice:30.00, image:"Produktbild", genders:["Unisex"], sizes:["XS","S","M","L","XL","XXL","3XL"], nameAllowed:true},
-  {name:"Fleece Jacke Basic", articleNumber:"023914-99", basePrice:35.00, image:"Produktbild", genders:["Herren","Damen"], sizes:["XS","S","M","L","XL","XXL","3XL","4XL"], nameAllowed:true},
-  {name:"Softshell Jacke Classic", articleNumber:"0200912-99", basePrice:59.90, image:"Produktbild", genders:["Herren","Damen"], sizes:["XS","S","M","L","XL","XXL","3XL","4XL"], nameAllowed:true},
-  {name:"James & Nicholson Jacke", articleNumber:"JN1138 black", basePrice:75.00, image:"Produktbild", genders:["Herren"], sizes:["S","M","L","XL","XXL","3XL"], nameAllowed:true},
-  {name:"James & Nicholson Jacke", articleNumber:"JN1139 black", basePrice:75.00, image:"Produktbild", genders:["Damen"], sizes:["S","M","L","XL","XXL"], nameAllowed:true},
-  {name:"FlexFit Wooly Combed", articleNumber:"6277 blk/blk", basePrice:23.90, image:"Produktbild", genders:["Unisex"], sizes:["S/M","L/XL"], nameAllowed:false},
-  {name:"Clique Hubert w. Patch", articleNumber:"024129", basePrice:14.90, image:"Produktbild", genders:["Unisex"], sizes:["One Size"], nameAllowed:false},
-  {name:"Bauchtasche BaseBag", articleNumber:"BG53", basePrice:0.00, image:"Produktbild", genders:["Unisex"], sizes:["One Size"], nameAllowed:false},
-  {name:"Sonnenbrille", articleNumber:"Werbeartikel", basePrice:3.20, image:"Produktbild", genders:["Unisex"], sizes:["One Size"], nameAllowed:false}
+ {id:'tshirt', title:'T-Shirt Classic', articleNumber:'029360-99', base:9.90, img:'👕', gender:true, sizes:['XS','S','M','L','XL','XXL','3XL','4XL'], name:true, desc:'Klassisches schwarzes T-Shirt mit Rundhalsausschnitt.'},
+ {id:'ziphoodie', title:'Kapuzenjacke Basic', articleNumber:'021035-99', base:35.00, img:'🧥', gender:true, sizes:['XS','S','M','L','XL','XXL','3XL'], name:true, desc:'Schwarze Sweatjacke mit Kapuze und Kängurutasche.'},
+ {id:'hoodie', title:'Hoody Classic', articleNumber:'021031-99', base:30.00, img:'🧥', gender:false, sizes:['XS','S','M','L','XL','XXL','3XL'], name:true, desc:'Schwarzer Kapuzensweater mit Kängurutasche.'},
+ {id:'fleece', title:'Fleece Jacke Basic', articleNumber:'023914-99', base:35.00, img:'🧥', gender:true, sizes:['XS','S','M','L','XL','XXL','3XL','4XL'], name:true, desc:'Microfleece-Jacke mit Stehkragen und Reissverschlusstaschen.'},
+ {id:'softshell', title:'Softshell Jacke Classic', articleNumber:'0200912-99', base:59.90, img:'🧥', gender:true, sizes:['XS','S','M','L','XL','XXL','3XL','4XL'], name:true, desc:'Schwarze Softshelljacke, wasserabweisend und atmungsaktiv.'},
+ {id:'jn1138', title:'Daunenweste', articleNumber:'JN1138 black', base:75.00, img:'🦺', gender:true, sizes:['S','M','L','XL','XXL','3XL'], name:true, desc:'Leichte schwarze Weste, wind- und wasserabweisend.'},
+ {id:'jn1139', title:'Daunenjacke', articleNumber:'JN1139 black', base:86.90, img:'🧥', gender:true, sizes:['S','M','L','XL','XXL','3XL'], name:true, desc:'Leichte schwarze Daunenjacke mit Seitentaschen.'},
+ {id:'cap', title:'Flexfit Cap', articleNumber:'6277 blk/blk', base:23.90, img:'🧢', gender:false, sizes:['S/M','L/XL'], name:false, desc:'Schwarze Flexfit Cap mit gebogenem Schirm.'},
+ {id:'beanie', title:'Clique Hubert w. Patch', articleNumber:'024129', base:14.90, img:'🎩', gender:false, sizes:['onesize'], name:false, desc:'Schwarze Mütze mit Patch, Einheitsgrösse.'},
+ {id:'bag', title:'Bauchtasche BaseBag', articleNumber:'BG53', base:0, img:'🎒', gender:false, sizes:['onesize'], name:false, desc:'Schwarze Bauchtasche für Alltag und Fasnacht.'},
+ {id:'glasses', title:'Sonnenbrille', articleNumber:'Werbeartikel schwarz', base:3.20, img:'🕶️', gender:false, sizes:['onesize'], name:false, desc:'Schwarze Sonnenbrille als Werbeartikel.'}
 ];
-function chf(n){return "CHF " + Number(n||0).toFixed(2);} 
-function calcUnit(p, name){return p.basePrice + LOGO_STICK_PRICE + (name && name.trim()? NAME_STICK_PRICE:0);} 
+let cart=[];
+function money(v){return Number(v||0).toFixed(2)}
 function renderProducts(){
-  const root=document.getElementById('products'); root.innerHTML='';
-  products.forEach((p,idx)=>{
-    const card=document.createElement('div'); card.className='card';
-    card.innerHTML=`<div class="image">${p.image}<br>${p.name}</div><div class="content"><div class="meta"><div><h3>${p.name}</h3><div class="art">Art.-Nr. ${p.articleNumber}</div></div><div class="price" id="price-${idx}">${chf(calcUnit(p,''))}</div></div><label>Schnitt</label><select id="gender-${idx}">${p.genders.map(x=>`<option>${x}</option>`).join('')}</select><label>Grösse</label><select id="size-${idx}">${p.sizes.map(x=>`<option>${x}</option>`).join('')}</select><label>Menge</label><select id="qty-${idx}">${[0,1,2,3,4,5].map(x=>`<option>${x}</option>`).join('')}</select>${p.nameAllowed?`<label>Name optional</label><input id="name-${idx}" placeholder="Name für Stick" />`:''}<div class="price-details" id="details-${idx}"></div><div class="fixed-note">Inkl. <b>${FIXED_FINISHING}</b>.</div><button class="btn add" id="add-${idx}">In den Warenkorb</button></div>`;
-    root.appendChild(card);
-    ['qty','name'].forEach(prefix=>{ const el=document.getElementById(`${prefix}-${idx}`); if(el) el.addEventListener('input',()=>updateCard(idx)); });
-    document.getElementById(`add-${idx}`).addEventListener('click',()=>addToCart(idx));
-    updateCard(idx);
-  });
+ const root=document.getElementById('products'); root.innerHTML='';
+ products.forEach(p=>{
+  root.insertAdjacentHTML('beforeend',`<div class="card" id="card-${p.id}">
+    <div class="pic">${p.img}<br><span style="font-size:13px;margin-left:8px">Produktbild folgt</span></div>
+    <div class="content"><h3>${p.title}</h3><div class="art">${p.articleNumber}</div><div class="desc">${p.desc || ''}</div>
+    <div class="priceTag">ab CHF <span>${money(p.base + LOGO_PRICE)}</span> <small>/ Stück mit Logo</small></div>
+    <details class="config"><summary>Produkt auswählen</summary><div class="configInner">
+      <div class="row">${p.gender?`<div><label>Schnitt</label><select id="gender-${p.id}" onchange="updateCardPrice('${p.id}')"><option>Herren</option><option>Damen</option></select></div>`:`<div><label>Schnitt</label><select id="gender-${p.id}" disabled><option>Unisex</option></select></div>`}
+      <div><label>Grösse</label><select id="size-${p.id}" onchange="updateCardPrice('${p.id}')">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></div></div>
+      <label>Menge</label><input id="qty-${p.id}" type="number" min="0" value="0" oninput="updateCardPrice('${p.id}')" />
+      ${p.name?`<label>Name auf Brust rechts</label><input id="name-${p.id}" placeholder="leer lassen = kein Name" oninput="updateCardPrice('${p.id}')"/><div class="hint">Name optional: + CHF ${money(NAME_PRICE)} pro Stück.</div>`:''}
+      <div class="priceTag">CHF <span id="price-${p.id}">${money(0)}</span> <small>aktuell</small></div>
+      <div class="hint">Grundpreis + ${FINISHING} CHF ${money(LOGO_PRICE)}${p.name?' + optional Name CHF '+money(NAME_PRICE):''}</div>
+      <button class="add" onclick="addToCart('${p.id}')">In den Warenkorb</button>
+    </div></details></div></div>`);
+ });
 }
-function updateCard(idx){
-  const p=products[idx]; const qty=Number(document.getElementById(`qty-${idx}`).value||0); const nameEl=document.getElementById(`name-${idx}`); const pers=nameEl?nameEl.value.trim():''; const unit=calcUnit(p,pers); const total=unit*qty;
-  document.getElementById(`price-${idx}`).textContent = qty>0 ? chf(total) : chf(unit);
-  document.getElementById(`details-${idx}`).innerHTML = `<div><span>Grundpreis</span><span>${chf(p.basePrice)}</span></div><div><span>Brustlogo Stick</span><span>${chf(LOGO_STICK_PRICE)}</span></div>${pers?`<div><span>Namensstick</span><span>${chf(NAME_STICK_PRICE)}</span></div>`:''}<div class="sum"><span>${qty>0?'Total':'Einzelpreis'}</span><span>${chf(qty>0?total:unit)}</span></div>`;
-  document.getElementById(`add-${idx}`).disabled = !shopOpen || qty<1;
+function calcItem(p){
+ const qty=Math.max(0, Number(document.getElementById('qty-'+p.id).value||0));
+ const nameEl=document.getElementById('name-'+p.id); const personalization=nameEl?nameEl.value.trim():'';
+ const unit=p.base + LOGO_PRICE + (personalization?NAME_PRICE:0);
+ return {qty, unit, total:unit*qty, personalization};
 }
-function addToCart(idx){
-  const p=products[idx]; const qty=Number(document.getElementById(`qty-${idx}`).value||0); if(qty<1)return;
-  const gender=document.getElementById(`gender-${idx}`).value; const size=document.getElementById(`size-${idx}`).value; const nameEl=document.getElementById(`name-${idx}`); const personalization=nameEl?nameEl.value.trim():''; const unit=calcUnit(p,personalization);
-  cart.push({product:p.name,articleNumber:p.articleNumber,gender,size,quantity:qty,finishing:FIXED_FINISHING,personalization,unitPrice:unit,totalPrice:unit*qty,image:p.image});
-  updateCart(); document.getElementById('cartModal').classList.add('open');
+function updateCardPrice(id){const p=products.find(x=>x.id===id); const c=calcItem(p); document.getElementById('price-'+id).textContent=money(c.total)}
+function addToCart(id){
+ if(expired) return; const p=products.find(x=>x.id===id); const c=calcItem(p); if(c.qty<1){alert('Bitte Menge wählen.');return;}
+ cart.push({product:p.title, articleNumber:p.articleNumber, image:p.img, gender:document.getElementById('gender-'+id).value, size:document.getElementById('size-'+id).value, quantity:c.qty, finishing:FINISHING, personalization:c.personalization, unitPrice:c.unit, totalPrice:c.total});
+ updateCart(); openCart();
 }
-function updateCart(){
-  document.getElementById('cartBtn').textContent=`🛒 Warenkorb ansehen (${cart.length})`;
-  const root=document.getElementById('cartItems'); root.innerHTML=''; let total=0;
-  if(cart.length===0){root.innerHTML='<p style="color:#aaa">Der Warenkorb ist leer.</p>'}
-  cart.forEach((it,i)=>{ total += Number(it.totalPrice||0); const div=document.createElement('div'); div.className='cart-item'; div.innerHTML=`<div class="thumb">Bild</div><div><h4>${it.product}</h4><p>${it.gender} / ${it.size} / Menge ${it.quantity}</p><p>${it.finishing}${it.personalization?` · Name: ${it.personalization}`:''}</p><p>${chf(it.unitPrice)} pro Stück</p></div><div><strong>${chf(it.totalPrice)}</strong><br><button class="remove" onclick="removeItem(${i})">Entfernen</button></div>`; root.appendChild(div); });
-  document.getElementById('cartTotal').textContent=chf(total);
+function updateCart(){document.getElementById('cartCount').textContent=cart.length; const root=document.getElementById('cartItems'); root.innerHTML=cart.length?'':'<p style="color:#aaa">Der Warenkorb ist leer.</p>'; let total=0; cart.forEach((it,i)=>{total+=it.totalPrice; root.insertAdjacentHTML('beforeend',`<div class="cartItem"><div class="thumb">${it.image}</div><div><b>${it.product}</b><small>${it.gender} · ${it.size} · Menge ${it.quantity}${it.personalization?' · Name: '+it.personalization:''}</small><br><small>CHF ${money(it.unitPrice)} / Stück</small></div><button class="remove" onclick="cart.splice(${i},1);updateCart()">Entfernen</button></div>`)}); document.getElementById('cartTotal').textContent=money(total)}
+function openCart(){updateCart();document.getElementById('cartModal').classList.add('open')} function closeCart(){document.getElementById('cartModal').classList.remove('open')}
+async function submitOrder(){
+ const first=document.getElementById('firstName').value.trim(); const last=document.getElementById('lastName').value.trim(); const status=document.getElementById('status');
+ if(!first||!last){status.textContent='Bitte Vorname und Nachname eintragen.';return} if(cart.length===0){status.textContent='Der Warenkorb ist leer.';return}
+ status.textContent='Bestellung wird gesendet...';
+ try{ const res=await fetch(GOOGLE_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({firstName:first,lastName:last,name:first+' '+last,items:cart})});
+  status.textContent='Bestellung gesendet. Danke!'; cart=[]; updateCart();
+ }catch(e){status.textContent='Fehler beim Senden. Bitte später nochmals versuchen.';}
 }
-function removeItem(i){cart.splice(i,1);updateCart()}
-document.getElementById('cartBtn').onclick=()=>{document.getElementById('cartModal').classList.add('open');updateCart()};
-document.getElementById('closeCart').onclick=()=>document.getElementById('cartModal').classList.remove('open');
-document.getElementById('submitOrder').onclick=async()=>{
-  const status=document.getElementById('status'); status.className='status';
-  if(cart.length===0){status.textContent='Der Warenkorb ist leer.';status.classList.add('error');return;}
-  const first=document.getElementById('firstName').value.trim(); const last=document.getElementById('lastName').value.trim(); const email=document.getElementById('email').value.trim();
-  if(!first || !last){status.textContent='Bitte Vorname und Nachname eintragen.';status.classList.add('error');return;}
-  status.textContent='Bestellung wird gesendet...';
-  try{
-    const payload={firstName:first,lastName:last,name:first+' '+last,email,items:cart};
-    await fetch(GOOGLE_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
-    status.textContent='Bestellung wurde gesendet.';status.classList.add('success');cart=[];updateCart();
-  }catch(e){status.textContent='Fehler beim Senden. Bitte später erneut versuchen.';status.classList.add('error');}
-};
-function updateCountdown(){
-  const now=new Date(); let diff=DEADLINE-now; if(diff<=0){shopOpen=false; document.getElementById('deadlineText').innerHTML='<span class="expired">⛔ Die Bestellfrist ist abgelaufen.</span>'; diff=0;} else shopOpen=true;
-  const d=Math.floor(diff/86400000), h=Math.floor(diff/3600000)%24, m=Math.floor(diff/60000)%60, s=Math.floor(diff/1000)%60;
-  document.getElementById('days').textContent=d; document.getElementById('hours').textContent=String(h).padStart(2,'0'); document.getElementById('minutes').textContent=String(m).padStart(2,'0'); document.getElementById('seconds').textContent=String(s).padStart(2,'0');
-  products.forEach((_,i)=>{if(document.getElementById(`add-${i}`)) updateCard(i)});
-}
-renderProducts(); updateCart(); updateCountdown(); setInterval(updateCountdown,1000);
+function tick(){const now=new Date(); let diff=deadline-now; if(diff<=0){expired=true;diff=0;document.body.classList.add('expired');document.querySelectorAll('.add').forEach(b=>b.disabled=true)} ['d','h','m','s'].forEach(()=>{}); document.getElementById('d').textContent=Math.floor(diff/86400000); document.getElementById('h').textContent=Math.floor(diff/3600000)%24; document.getElementById('m').textContent=Math.floor(diff/60000)%60; document.getElementById('s').textContent=Math.floor(diff/1000)%60}
+renderProducts(); updateCart(); tick(); setInterval(tick,1000);
 </script>
 </body>
 </html>
