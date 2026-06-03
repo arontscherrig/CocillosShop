@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cocillos Kleiderbestellung Demo v6</title>
+  <title>Cocillos Kleiderbestellung Demo v7</title>
   <style>
     :root{--bg:#07070a;--card:#17171d;--card2:#23232b;--text:#f7f7f8;--muted:#a7a7b1;--accent:#d41420;--accent2:#ff4b55;--line:rgba(255,255,255,.12);--gold:#d8b15a;--ok:#2fd07c;--radius:22px;--shadow:0 20px 60px rgba(0,0,0,.38)}
     *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:radial-gradient(circle at top left,rgba(212,20,32,.24),transparent 36%),radial-gradient(circle at top right,rgba(216,177,90,.12),transparent 28%),var(--bg);color:var(--text)}
@@ -14,15 +14,15 @@
     main{max-width:1180px;margin:auto;padding:24px 18px 120px}.toolbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:6px 0 20px;flex-wrap:wrap}.search{flex:1;min-width:240px;border:1px solid var(--line);background:rgba(255,255,255,.07);border-radius:16px;padding:13px 15px;color:white;font-size:15px}.pill{border:1px solid var(--line);background:rgba(255,255,255,.06);padding:10px 12px;border-radius:999px;color:var(--muted);font-size:13px}.customer{margin:28px 0;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:var(--radius);padding:18px}.customer h2{margin:0 0 12px}.customer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:20px}.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.22);transition:.18s transform,.18s border-color}.card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.22)}.img{height:226px;background:linear-gradient(135deg,#2b2b33,#121217);display:flex;align-items:center;justify-content:center;text-align:center;color:#b7b7bf;position:relative;overflow:hidden}.img:before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(212,20,32,.18);filter:blur(28px)}.img span{position:relative;z-index:1;font-weight:800}.img small{display:block;color:#85858f;font-weight:400;margin-top:8px}.thumb,.img img{width:100%;height:100%;object-fit:contain;background:white}.thumb{width:54px;height:54px;border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#303038,#17171d);color:#aaa;font-size:10px;text-align:center;flex:0 0 auto}.content{padding:18px}.topline{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.content h2{font-size:18px;line-height:1.15;margin:0 0 7px}.sku{color:var(--muted);font-size:12px}.price{white-space:nowrap;color:#fff;background:rgba(212,20,32,.18);border:1px solid rgba(255,75,85,.35);padding:8px 10px;border-radius:999px;font-weight:900;font-size:14px;text-align:right}.price small{display:block;color:#bbb;font-size:10px;font-weight:600;margin-top:2px}.desc{color:var(--muted);font-size:13px;line-height:1.45;margin:12px 0 14px}.row{display:grid;grid-template-columns:1fr 96px;gap:10px}.row.three{grid-template-columns:1fr 1fr 96px}label{display:block;color:#dedee5;font-size:12px;font-weight:700;letter-spacing:.2px}select,input{width:100%;margin-top:6px;padding:11px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e0e13;color:#fff;outline:none}input[type="number"]{text-align:center}.stick{margin-top:10px}.stick input{border-color:rgba(216,177,90,.35)}.breakdown{min-height:36px;margin:12px 0 0;color:#cfcfd6;font-size:12px;line-height:1.35}.addbtn{margin-top:12px;width:100%;border:0;border-radius:14px;background:linear-gradient(135deg,var(--accent),#ff3845);color:white;padding:13px 14px;font-weight:950;cursor:pointer;box-shadow:0 10px 24px rgba(212,20,32,.25)}.addbtn:active{transform:scale(.99)}.addbtn.ok{background:linear-gradient(135deg,#198754,var(--ok));}
     .cartbar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:20;width:min(660px,calc(100% - 24px));background:rgba(5,5,7,.95);border:1px solid var(--line);border-radius:18px;box-shadow:0 -12px 42px rgba(0,0,0,.46);backdrop-filter:blur(14px);padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px}.cartmini{font-size:13px;color:#d6d6dc}.cartmini b{display:block;color:#fff;font-size:15px}.viewbtn{border:0;border-radius:14px;background:#fff;color:#111;padding:12px 16px;font-weight:950;cursor:pointer}.viewbtn span{background:var(--accent);color:white;border-radius:999px;padding:2px 7px;margin-left:6px;font-size:12px}
-    .modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.64);display:none;align-items:flex-end;justify-content:center;padding:18px}.modal.open{display:flex}.sheet{width:min(860px,100%);max-height:88vh;overflow:auto;background:#101016;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}.sheet-head{position:sticky;top:0;background:#101016;border-bottom:1px solid var(--line);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.sheet-head h2{margin:0}.close{border:1px solid var(--line);background:rgba(255,255,255,.08);color:white;border-radius:999px;width:38px;height:38px;cursor:pointer}.cartRows{padding:14px}.cartrow{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:10px;margin-bottom:10px;background:rgba(255,255,255,.04)}.cartrow h3{font-size:15px;margin:0 0 4px}.cartrow p{margin:0;color:#b8b8c2;font-size:12px;line-height:1.35}.cartrow .sum{text-align:right;font-weight:950}.remove{margin-top:5px;border:0;background:transparent;color:#ff7b84;cursor:pointer;font-size:12px}.sheet-foot{position:sticky;bottom:0;background:#101016;border-top:1px solid var(--line);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}.grand{font-size:24px;font-weight:1000}.send{border:0;border-radius:14px;background:linear-gradient(135deg,var(--accent),#ff3845);color:white;padding:13px 18px;font-weight:950;cursor:pointer}
+    .modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.64);display:none;align-items:flex-end;justify-content:center;padding:18px}.modal.open{display:flex}.sheet{width:min(860px,100%);max-height:88vh;overflow:auto;background:#101016;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}.sheet-head{position:sticky;top:0;background:#101016;border-bottom:1px solid var(--line);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.sheet-head h2{margin:0}.close{border:1px solid var(--line);background:rgba(255,255,255,.08);color:white;border-radius:999px;width:38px;height:38px;cursor:pointer}.cartRows{padding:14px}.cartrow{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:10px;margin-bottom:10px;background:rgba(255,255,255,.04)}.cartrow h3{font-size:15px;margin:0 0 4px}.cartrow p{margin:0;color:#b8b8c2;font-size:12px;line-height:1.35}.cartrow .sum{text-align:right;font-weight:950}.remove{margin-top:5px;border:0;background:transparent;color:#ff7b84;cursor:pointer;font-size:12px}.sheet-foot{position:sticky;bottom:0;background:#101016;border-top:1px solid var(--line);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}.grand{font-size:24px;font-weight:1000}.send{border:0;border-radius:14px;background:linear-gradient(135deg,var(--accent),#ff3845);color:white;padding:13px 18px;font-weight:950;cursor:pointer}.status{padding:0 18px 14px;color:#b8b8c2;font-size:13px}.status.ok{color:var(--ok)}.status.err{color:#ff7b84}
     @media(max-width:780px){.hero-inner{grid-template-columns:1fr}.steps,.customer-grid{grid-template-columns:1fr}.row.three,.row{grid-template-columns:1fr}.img{height:200px}.cartrow{grid-template-columns:46px 1fr}.cartrow .sum{text-align:left;grid-column:2}.sheet-foot{align-items:flex-start;flex-direction:column}.send{width:100%}}
   </style>
 </head>
 <body>
-  <header class="hero"><div class="hero-inner"><div><div class="badge">🎺 Vereinsinterne Demo · keine echte Bestellung</div><h1>Cocillos <span class="red">Kleider</span><br>Bestellung 2026</h1><p class="lead">Mini-Shop-Demo: Artikel konfigurieren, Preis direkt in der Kachel prüfen und bewusst in den Warenkorb legen.</p><div class="deadline-card" id="deadlineCard"><div class="deadline-label">⏳ BESTELLSCHLUSS IN</div><div class="deadline-grid"><div class="timebox"><strong id="ddays">--</strong><span>Tage</span></div><div class="timebox"><strong id="dhours">--</strong><span>Stunden</span></div><div class="timebox"><strong id="dminutes">--</strong><span>Minuten</span></div><div class="timebox"><strong id="dseconds">--</strong><span>Sekunden</span></div></div><div class="deadline-date">Bestellschluss: <b>29. Januar 2027 • 23:59 Uhr</b></div><div class="deadline-warning" id="deadlineWarning"></div></div><div class="steps"><div class="step"><b>1. Konfigurieren</b>Schnitt, Grösse, Menge, Veredelung</div><div class="step"><b>2. Warenkorb</b>Mit Mini-Bild und Preisdetails</div><div class="step"><b>3. Absenden</b>Später an Google Sheets</div></div></div><div class="hero-panel"><span>Aktuelle Demo</span><strong id="heroCount">11 Produkte</strong><span>Platzhalterbilder können später ersetzt werden.</span></div></div></header>
-  <main><div class="closed-banner" id="closedBanner">⛔ Die Bestellfrist ist abgelaufen. Bei Fragen bitte den Vorstand kontaktieren.</div><div class="toolbar"><input class="search" id="search" placeholder="Produkt suchen, z.B. Softshell, Bauchtasche, 029360..." oninput="renderProducts()"><div class="pill">Shop-Feeling mit Warenkorb</div><div class="pill">Logo: Brust links · Stick oder Druck</div></div><section class="customer"><h2>Mitgliederdaten</h2><div class="customer-grid"><label>Vorname<input id="firstName" placeholder="Vorname"></label><label>Nachname<input id="lastName" placeholder="Nachname"></label><label>Telefon / E-Mail<input id="contact" placeholder="optional"></label></div></section><section class="customer" style="margin-top:14px"><h2>Veredelung</h2><p style="margin:0;color:var(--muted);font-size:13px;line-height:1.45">Bei Textilien wird standardmässig ein Logo auf Brust links berechnet. Pro Artikel kann Stick oder Druck gewählt werden. Sobald ein Name eingetragen wird, erscheint der passende Namens-Zuschlag in der Preisaufschlüsselung.</p></section><section class="grid" id="products"></section></main>
+  <header class="hero"><div class="hero-inner"><div><div class="badge">🎺 Vereinsinterne Bestellseite · Testversion</div><h1>Cocillos <span class="red">Kleider</span><br>Bestellung 2026</h1><p class="lead">Mini-Shop-Demo: Artikel konfigurieren, Preis direkt in der Kachel prüfen und bewusst in den Warenkorb legen.</p><div class="deadline-card" id="deadlineCard"><div class="deadline-label">⏳ BESTELLSCHLUSS IN</div><div class="deadline-grid"><div class="timebox"><strong id="ddays">--</strong><span>Tage</span></div><div class="timebox"><strong id="dhours">--</strong><span>Stunden</span></div><div class="timebox"><strong id="dminutes">--</strong><span>Minuten</span></div><div class="timebox"><strong id="dseconds">--</strong><span>Sekunden</span></div></div><div class="deadline-date">Bestellschluss: <b>29. Januar 2027 • 23:59 Uhr</b></div><div class="deadline-warning" id="deadlineWarning"></div></div><div class="steps"><div class="step"><b>1. Konfigurieren</b>Schnitt, Grösse, Menge, Veredelung</div><div class="step"><b>2. Warenkorb</b>Mit Mini-Bild und Preisdetails</div><div class="step"><b>3. Absenden</b>Direkt an Google Sheets</div></div></div><div class="hero-panel"><span>Aktuelle Demo</span><strong id="heroCount">11 Produkte</strong><span>Platzhalterbilder können später ersetzt werden.</span></div></div></header>
+  <main><div class="closed-banner" id="closedBanner">⛔ Die Bestellfrist ist abgelaufen. Bei Fragen bitte den Vorstand kontaktieren.</div><div class="toolbar"><input class="search" id="search" placeholder="Produkt suchen, z.B. Softshell, Bauchtasche, 029360..." oninput="renderProducts()"><div class="pill">Shop-Feeling mit Warenkorb</div><div class="pill">Logo: Brust links · Stick oder Druck</div></div><section class="customer"><h2>Mitgliederdaten</h2><div class="customer-grid"><label>Vorname<input id="firstName" placeholder="Vorname"></label><label>Nachname<input id="lastName" placeholder="Nachname"></label><label>Telefon / E-Mail<input id="contact" placeholder="optional"></label><label>Vereinscode<input id="clubCode" placeholder="z.B. COCILLOS2027"></label></div></section><section class="customer" style="margin-top:14px"><h2>Veredelung</h2><p style="margin:0;color:var(--muted);font-size:13px;line-height:1.45">Bei Textilien wird standardmässig ein Logo auf Brust links berechnet. Pro Artikel kann Stick oder Druck gewählt werden. Sobald ein Name eingetragen wird, erscheint der passende Namens-Zuschlag in der Preisaufschlüsselung.</p></section><section class="grid" id="products"></section></main>
   <section class="cartbar"><div class="cartmini"><b id="miniTotal">CHF 0.00</b><span id="miniCount">Noch keine Artikel im Warenkorb</span></div><button class="viewbtn" onclick="openCart()">Warenkorb ansehen <span id="cartBadge">0</span></button></section>
-  <div class="modal" id="cartModal" onclick="backdropClose(event)"><div class="sheet"><div class="sheet-head"><h2>Warenkorb</h2><button class="close" onclick="closeCart()">×</button></div><div class="cartRows" id="cartRows"></div><div class="sheet-foot"><div><div style="color:var(--muted);font-size:13px">Total</div><div class="grand" id="grandTotal">CHF 0.00</div></div><button class="send" onclick="submitDemo()">Bestellung absenden</button></div></div></div>
+  <div class="modal" id="cartModal" onclick="backdropClose(event)"><div class="sheet"><div class="sheet-head"><h2>Warenkorb</h2><button class="close" onclick="closeCart()">×</button></div><div class="cartRows" id="cartRows"></div><div class="status" id="submitStatus"></div><div class="sheet-foot"><div><div style="color:var(--muted);font-size:13px">Total</div><div class="grand" id="grandTotal">CHF 0.00</div></div><button class="send" onclick="submitDemo()">Bestellung absenden</button></div></div></div>
 <script>
 
 const deadline = new Date("2027-01-29T23:59:59");
@@ -86,7 +86,84 @@ function removeFromCart(idx){cart.splice(idx,1);updateCartBar();}
 function openCart(){renderCart();document.getElementById('cartModal').classList.add('open')}
 function closeCart(){document.getElementById('cartModal').classList.remove('open')}
 function backdropClose(e){if(e.target.id==='cartModal')closeCart();}
-function submitDemo(){if(shopClosed){alert('Die Bestellfrist ist abgelaufen.');return;} if(!cart.length){alert('Bitte zuerst mindestens einen Artikel in den Warenkorb legen.'); return;} alert('Demo: In der echten Version wird der Warenkorb an Google Sheets oder Forms gesendet.');}
+
+// HIER deine Apps-Script-Web-App-URL einfügen, nachdem du das Script bereitgestellt hast.
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyTYhYE-SglnFiHhJ_B2Em1Crf13wDWNSMo92oZXzoaIrGSQnN-r81NyXE7jaHUHzY/exec";
+
+function setStatus(text,type){
+  const el=document.getElementById('submitStatus');
+  if(!el) return;
+  el.textContent=text||'';
+  el.className='status '+(type||'');
+}
+
+function buildOrderPayload(){
+  const firstName=(document.getElementById('firstName')?.value||'').trim();
+  const lastName=(document.getElementById('lastName')?.value||'').trim();
+  const contact=(document.getElementById('contact')?.value||'').trim();
+  const clubCode=(document.getElementById('clubCode')?.value||'').trim();
+  const total=cart.reduce((a,c)=>a+c.subtotal,0);
+  return {
+    orderId:'COC-'+Date.now(),
+    submittedAt:new Date().toISOString(),
+    deadline:deadline.toISOString(),
+    customer:{firstName,lastName,contact,clubCode},
+    total,
+    items:cart.map(c=>({
+      product:c.p.name,
+      articleNumber:c.variant?c.variant.sku:c.p.sku,
+      baseArticleNumber:c.p.sku,
+      cut:c.variant?c.variant.label:'Unisex / one size',
+      size:c.size,
+      quantity:c.qty,
+      basePrice:c.p.price||0,
+      decoration:c.p.decor ? (c.mode==='stick'?'Stick Brust links':'Druck Brust links') : 'Keine',
+      decorationPrice:c.p.decor ? (c.mode==='stick'?decorationPrices.stickLogo:decorationPrices.printLogo) : 0,
+      name:c.name||'',
+      namePrice:(c.p.decor && c.name) ? (c.mode==='stick'?decorationPrices.stickName:decorationPrices.printName) : 0,
+      unitPrice:c.unit,
+      lineTotal:c.subtotal,
+      notes:c.extras.join(' | ')
+    }))
+  };
+}
+
+async function submitDemo(){
+  if(shopClosed){alert('Die Bestellfrist ist abgelaufen.');return;}
+  if(!cart.length){alert('Bitte zuerst mindestens einen Artikel in den Warenkorb legen.'); return;}
+  const firstName=(document.getElementById('firstName')?.value||'').trim();
+  const lastName=(document.getElementById('lastName')?.value||'').trim();
+  const clubCode=(document.getElementById('clubCode')?.value||'').trim();
+  if(!firstName || !lastName){alert('Bitte Vorname und Nachname ausfüllen.'); return;}
+  if(!clubCode){alert('Bitte Vereinscode eingeben.'); return;}
+  if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL==='DEINE_WEB_APP_URL_HIER'){
+    alert('Noch keine Google-Sheets-Verbindung eingerichtet: Bitte Web-App-URL im HTML einfügen.');
+    return;
+  }
+  const btn=document.querySelector('.send');
+  btn.disabled=true;
+  setStatus('Bestellung wird an Google Sheets gesendet ...','');
+  try{
+    const res=await fetch(GOOGLE_SCRIPT_URL,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(buildOrderPayload())
+    });
+    // no-cors liefert keine lesbare Antwort. Wenn kein Fehler geworfen wird, wurde die Anfrage abgeschickt.
+    setStatus('Bestellung wurde abgeschickt. Bitte prüfe zur Sicherheit dein Google Sheet.','ok');
+    alert('Danke! Deine Bestellung wurde abgeschickt.');
+    cart=[];
+    updateCartBar();
+    closeCart();
+  }catch(err){
+    console.error(err);
+    setStatus('Fehler beim Senden. Bitte später erneut versuchen oder Vorstand kontaktieren.','err');
+    alert('Fehler beim Senden. Prüfe die Web-App-URL oder Apps-Script-Bereitstellung.');
+  }finally{
+    btn.disabled=false;
+  }
+}
 updateCountdown();renderProducts();updateCartBar();
 </script>
 </body>
