@@ -12,3 +12,8 @@
 #card-beanie .pic{background-image:url("images/beanie.svg")}
 #card-bag .pic{background-image:url("images/bag.svg")}
 #card-glasses .pic{background-image:url("images/glasses.jpg?v=1");background-size:contain}
+
+/* Hide irrelevant selection fields while keeping the underlying form values intact. */
+#card-beanie .config .row,#card-bag .config .row,#card-glasses .config .row{display:none}
+#card-cap .config .row>div:first-child{display:none}
+#card-cap .config .row{grid-template-columns:1fr}
