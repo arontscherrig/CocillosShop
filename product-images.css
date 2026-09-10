@@ -27,3 +27,44 @@
 /* Clearer wording beside the displayed product price. */
 .card .content>.priceTag small{font-size:0}
 .card .content>.priceTag small::after{content:"inkl. Logo";font-size:12px}
+
+/* Visual polish only: no sizes, spacing, grid or positioning changed. */
+body{
+  background:
+    radial-gradient(circle at 16% 8%,rgba(215,25,32,.12) 0,rgba(215,25,32,0) 28%),
+    radial-gradient(circle at 88% 34%,rgba(255,59,69,.07) 0,rgba(255,59,69,0) 30%),
+    radial-gradient(circle at 48% 88%,rgba(130,14,20,.07) 0,rgba(130,14,20,0) 34%),
+    linear-gradient(180deg,#17171d 0,#0b0b0d 42%,#08080a 100%);
+  background-size:125% 125%,135% 135%,140% 140%,100% 100%;
+  animation:cocillosAmbient 22s ease-in-out infinite alternate;
+}
+@keyframes cocillosAmbient{
+  0%{background-position:0% 0%,100% 18%,45% 100%,0 0}
+  100%{background-position:8% 5%,92% 28%,55% 92%,0 0}
+}
+header{
+  background:linear-gradient(180deg,rgba(8,8,9,.98),rgba(17,17,22,.96));
+  box-shadow:0 12px 38px rgba(0,0,0,.28),0 1px 0 rgba(215,25,32,.13) inset;
+}
+.logo{text-shadow:0 0 24px rgba(215,25,32,.20)}
+.deadline{
+  border-color:#40343a;
+  box-shadow:0 18px 45px rgba(0,0,0,.30),0 0 34px rgba(215,25,32,.08),0 1px 0 rgba(255,255,255,.025) inset;
+}
+.timebox{box-shadow:0 1px 0 rgba(255,255,255,.025) inset,0 8px 20px rgba(0,0,0,.15)}
+.card{
+  border-color:#34343d;
+  box-shadow:0 16px 40px rgba(0,0,0,.27),0 1px 0 rgba(255,255,255,.025) inset;
+  transition:border-color .25s ease,box-shadow .25s ease;
+}
+.card:hover{
+  border-color:rgba(215,25,32,.48);
+  box-shadow:0 18px 46px rgba(0,0,0,.32),0 0 28px rgba(215,25,32,.08),0 1px 0 rgba(255,255,255,.03) inset;
+}
+.config{transition:border-color .22s ease,box-shadow .22s ease}
+.config[open]{border-color:rgba(215,25,32,.42);box-shadow:0 0 22px rgba(215,25,32,.055)}
+.cartBtn{transition:box-shadow .22s ease,filter .22s ease}
+.cartBtn:hover{box-shadow:0 12px 30px rgba(215,25,32,.34),0 0 20px rgba(215,25,32,.12);filter:brightness(1.06)}
+.priceTag{text-shadow:0 0 18px rgba(255,255,255,.035)}
+
+@media (prefers-reduced-motion:reduce){body{animation:none}}
