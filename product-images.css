@@ -1,6 +1,6 @@
 /* Product pictures only; ordering/cart/submission logic stays untouched. */
-#card-tshirt .pic,#card-ziphoodie .pic,#card-hoodie .pic,#card-fleece .pic,#card-softshell .pic,#card-jn1138 .pic,#card-jn1139 .pic,#card-cap .pic,#card-beanie .pic,#card-bag .pic{height:auto;aspect-ratio:1/1;background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#fff;font-size:0;color:transparent}
-#card-tshirt .pic span,#card-ziphoodie .pic span,#card-hoodie .pic span,#card-fleece .pic span,#card-softshell .pic span,#card-jn1138 .pic span,#card-jn1139 .pic span,#card-cap .pic span,#card-beanie .pic span,#card-bag .pic span{display:none}
+#card-tshirt .pic,#card-ziphoodie .pic,#card-hoodie .pic,#card-fleece .pic,#card-softshell .pic,#card-jn1138 .pic,#card-jn1139 .pic,#card-cap .pic,#card-beanie .pic,#card-bag .pic,#card-glasses .pic{height:auto;aspect-ratio:1/1;background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#fff;font-size:0;color:transparent}
+#card-tshirt .pic span,#card-ziphoodie .pic span,#card-hoodie .pic span,#card-fleece .pic span,#card-softshell .pic span,#card-jn1138 .pic span,#card-jn1139 .pic span,#card-cap .pic span,#card-beanie .pic span,#card-bag .pic span,#card-glasses .pic span{display:none}
 #card-tshirt .pic{background-image:url("images/tshirt.svg")}
 #card-ziphoodie .pic{background-image:url("images/ziphoodie.svg")}
 #card-hoodie .pic{background-image:url("images/hoodie.svg")}
@@ -11,3 +11,4 @@
 #card-cap .pic{background-image:url("images/cap.svg")}
 #card-beanie .pic{background-image:url("images/beanie.svg")}
 #card-bag .pic{background-image:url("images/bag.svg")}
+#card-glasses .pic{background-image:url("images/glasses.svg?v=1")}
