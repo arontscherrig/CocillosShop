@@ -50,8 +50,8 @@ label{display:block;color:#ddd;font-size:13px;margin-top:10px;margin-bottom:5px}
       <div class="total">Total: CHF <span id="cartTotal">0.00</span></div>
       <div class="checkout">
         <h3>Bestellung abschliessen</h3>
-        <label>Vorname</label><input id="firstName" placeholder="Vorname" />
-        <label>Nachname</label><input id="lastName" placeholder="Nachname" />
+        <label>Vorname</label><input id="firstName" placeholder="Vorname" oninput="clearFieldError(this)" />
+        <label>Nachname</label><input id="lastName" placeholder="Nachname" oninput="clearFieldError(this)" />
         <button class="submit" id="submitBtn" onclick="submitOrder()">Bestellung absenden</button>
         <div class="status" id="status"></div>
       </div>
@@ -94,6 +94,13 @@ function saveCart(){
 }
 let cart=loadCart();
 function money(v){return Number(v||0).toFixed(2)}
+function showFieldError(el,message){
+ if(!el) return;
+ el.setCustomValidity(message);
+ el.reportValidity();
+ el.focus();
+}
+function clearFieldError(el){if(el) el.setCustomValidity('')}
 function renderProducts(){
  const root=document.getElementById('products'); root.innerHTML='';
  products.forEach(p=>{
@@ -106,7 +113,7 @@ function renderProducts(){
     <details class="config"><summary>Produkt auswählen</summary><div class="configInner">
       <div class="row">${hideGender?`<input type="hidden" id="gender-${p.id}" value="Unisex">`:(p.gender?`<div><label>Schnitt</label><select id="gender-${p.id}" onchange="updateCardPrice('${p.id}')"><option>Herren</option><option>Damen</option></select></div>`:`<div><label>Schnitt</label><select id="gender-${p.id}" disabled><option>Unisex</option></select></div>`)}
       ${hideSize?`<input type="hidden" id="size-${p.id}" value="${p.sizes[0]}">`:`<div><label>Grösse</label><select id="size-${p.id}" onchange="updateCardPrice('${p.id}')">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></div>`}</div>
-      <label>Menge</label><input id="qty-${p.id}" type="number" min="0" value="0" oninput="updateCardPrice('${p.id}')" />
+      <label>Menge</label><input id="qty-${p.id}" type="number" min="0" value="0" oninput="clearFieldError(this);updateCardPrice('${p.id}')" />
       ${p.name?`<label>Name auf Brust rechts</label><input id="name-${p.id}" placeholder="leer lassen = kein Name" oninput="updateCardPrice('${p.id}')"/><div class="hint">Name optional: + CHF ${money(NAME_PRICE)} pro Stück.</div>`:''}
       ${p.preorder?`<div class="priceTag">Zum Vorbestellen</div><div class="hint">Preis folgt nach der Vorbestellung.</div>`:`<div class="priceTag">CHF <span id="price-${p.id}">${money(0)}</span> <small>aktuell</small></div><div class="hint">Grundpreis + ${FINISHING} CHF ${money(LOGO_PRICE)}${p.name?' + optional Name CHF '+money(NAME_PRICE):''}</div>`}
       <button class="add" id="add-${p.id}" onclick="addToCart('${p.id}')">In den Warenkorb</button>
@@ -122,7 +129,7 @@ function calcItem(p){
 function updateCardPrice(id){const p=products.find(x=>x.id===id); const c=calcItem(p); const el=document.getElementById('price-'+id); if(el) el.textContent=money(c.total)}
 function resetProductForm(id){
  const qtyEl=document.getElementById('qty-'+id), nameEl=document.getElementById('name-'+id), genderEl=document.getElementById('gender-'+id), sizeEl=document.getElementById('size-'+id);
- if(qtyEl) qtyEl.value=0;
+ if(qtyEl){qtyEl.value=0;clearFieldError(qtyEl)}
  if(nameEl) nameEl.value='';
  if(genderEl && genderEl.tagName==='SELECT') genderEl.selectedIndex=0;
  if(sizeEl && sizeEl.tagName==='SELECT') sizeEl.selectedIndex=0;
@@ -131,7 +138,9 @@ function resetProductForm(id){
 function addToCart(id){
  if(expired) return;
  const p=products.find(x=>x.id===id); const c=calcItem(p);
- if(c.qty<1){alert('Bitte Menge wählen.');return;}
+ const qtyEl=document.getElementById('qty-'+id);
+ if(c.qty<1){showFieldError(qtyEl,'Bitte eine Menge von mindestens 1 wählen.');return;}
+ clearFieldError(qtyEl);
  const btn=document.getElementById('add-'+id);
  cart.push({product:p.title, articleNumber:p.articleNumber, image:p.img, gender:document.getElementById('gender-'+id).value, size:document.getElementById('size-'+id).value, quantity:c.qty, finishing:FINISHING, personalization:c.personalization, unitPrice:c.unit, totalPrice:c.total, preorder:!!p.preorder});
  updateCart();
@@ -147,11 +156,15 @@ function addToCart(id){
   resetProductForm(id);
  }
 }
-function updateCart(){saveCart();document.getElementById('cartCount').textContent=cart.length; const root=document.getElementById('cartItems'); root.innerHTML=cart.length?'':'<p style="color:#aaa">Der Warenkorb ist leer.</p>'; let total=0; let hasPreorder=false; cart.forEach((it,i)=>{if(it.preorder){hasPreorder=true}else{total+=it.totalPrice} root.insertAdjacentHTML('beforeend',`<div class="cartItem"><div class="thumb">${it.image}</div><div><b>${it.product}</b><small>${it.gender} · ${it.size} · Menge ${it.quantity}${it.personalization?' · Name: '+it.personalization:''}</small><br><small>${it.preorder?'Zum Vorbestellen':'CHF '+money(it.unitPrice)+' / Stück'}</small></div><button class="remove" onclick="cart.splice(${i},1);updateCart()">Entfernen</button></div>`)}); document.getElementById('cartTotal').textContent=hasPreorder?(total>0?money(total)+' + Vorbestellung':'Vorbestellung'):money(total)}
+function updateCart(){saveCart();const itemCount=cart.reduce((sum,it)=>sum+Math.max(0,Number(it.quantity)||0),0);document.getElementById('cartCount').textContent=itemCount; const root=document.getElementById('cartItems'); root.innerHTML=cart.length?'':'<p style="color:#aaa">Der Warenkorb ist leer.</p>'; let total=0; let hasPreorder=false; cart.forEach((it,i)=>{if(it.preorder){hasPreorder=true}else{total+=it.totalPrice} root.insertAdjacentHTML('beforeend',`<div class="cartItem"><div class="thumb">${it.image}</div><div><b>${it.product}</b><small>${it.gender} · ${it.size} · Menge ${it.quantity}${it.personalization?' · Name: '+it.personalization:''}</small><br><small>${it.preorder?'Zum Vorbestellen':'CHF '+money(it.unitPrice)+' / Stück'}</small></div><button class="remove" onclick="cart.splice(${i},1);updateCart()">Entfernen</button></div>`)}); document.getElementById('cartTotal').textContent=hasPreorder?(total>0?money(total)+' + Vorbestellung':'Vorbestellung'):money(total)}
 function openCart(){updateCart();document.getElementById('cartModal').classList.add('open')} function closeCart(){document.getElementById('cartModal').classList.remove('open')}
 async function submitOrder(){
- const first=document.getElementById('firstName').value.trim(); const last=document.getElementById('lastName').value.trim(); const status=document.getElementById('status'); const submitBtn=document.getElementById('submitBtn');
- if(!first||!last){status.textContent='Bitte Vorname und Nachname eintragen.';return} if(cart.length===0){status.textContent='Der Warenkorb ist leer.';return} if(submitBtn.disabled) return;
+ const firstEl=document.getElementById('firstName'); const lastEl=document.getElementById('lastName'); const first=firstEl.value.trim(); const last=lastEl.value.trim(); const status=document.getElementById('status'); const submitBtn=document.getElementById('submitBtn');
+ clearFieldError(firstEl); clearFieldError(lastEl);
+ if(!first){showFieldError(firstEl,'Bitte Vorname eintragen.');return}
+ if(!last){showFieldError(lastEl,'Bitte Nachname eintragen.');return}
+ if(cart.length===0){status.textContent='Der Warenkorb ist leer.';return}
+ if(submitBtn.disabled) return;
  submitBtn.disabled=true; submitBtn.textContent='Bestellung wird gesendet...'; status.textContent='Bestellung wird gesendet...';
  try{ await fetch(GOOGLE_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({firstName:first,lastName:last,name:first+' '+last,items:cart})});
   status.textContent='Bestellung gesendet. Danke!'; submitBtn.textContent='✓ Bestellung gesendet'; cart=[]; updateCart();
