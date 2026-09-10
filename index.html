@@ -196,6 +196,13 @@ function openCart(){updateCart();document.getElementById('cartModal').classList.
 function closeCart(){document.getElementById('cartModal').classList.remove('open')}
 async function submitOrder(){
  const firstEl=document.getElementById('firstName'); const lastEl=document.getElementById('lastName'); const first=firstEl.value.trim(); const last=lastEl.value.trim(); const status=document.getElementById('status'); const submitBtn=document.getElementById('submitBtn');
+ status.style.color=''; status.style.fontWeight='';
+ if(expired || new Date()>=deadline){
+  expired=true;
+  submitBtn.disabled=true; submitBtn.textContent='Bestellschluss vorbei';
+  status.textContent='Bestellschluss ist vorbei. Es können keine Bestellungen mehr gesendet werden.';
+  return;
+ }
  clearFieldError(firstEl); clearFieldError(lastEl);
  if(!first){showFieldError(firstEl,'Bitte Vorname eintragen.');return}
  if(!last){showFieldError(lastEl,'Bitte Nachname eintragen.');return}
@@ -203,10 +210,10 @@ async function submitOrder(){
  if(submitBtn.disabled) return;
  submitBtn.disabled=true; submitBtn.textContent='Bestellung wird gesendet...'; status.textContent='Bestellung wird gesendet...';
  try{ await fetch(GOOGLE_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({firstName:first,lastName:last,name:first+' '+last,items:cart})});
-  status.textContent='Bestellung gesendet. Danke!'; submitBtn.textContent='✓ Bestellung gesendet'; cart=[]; updateCart();
- }catch(e){status.textContent='Fehler beim Senden. Bitte später nochmals versuchen.'; submitBtn.disabled=false; submitBtn.textContent='Bestellung absenden';}
+  status.textContent='✓ Deine Bestellung wurde übermittelt.'; status.style.color='var(--green)'; status.style.fontWeight='900'; submitBtn.textContent='✓ Bestellung gesendet'; firstEl.value=''; lastEl.value=''; clearFieldError(firstEl); clearFieldError(lastEl); cart=[]; updateCart();
+ }catch(e){status.textContent='Fehler beim Senden. Bitte später nochmals versuchen.'; status.style.color=''; status.style.fontWeight=''; submitBtn.disabled=false; submitBtn.textContent='Bestellung absenden';}
 }
-function tick(){const now=new Date(); let diff=deadline-now; if(diff<=0){expired=true;diff=0;document.body.classList.add('expired');document.querySelectorAll('.add').forEach(b=>b.disabled=true)} ['d','h','m','s'].forEach(()=>{}); document.getElementById('d').textContent=Math.floor(diff/86400000); document.getElementById('h').textContent=Math.floor(diff/3600000)%24; document.getElementById('m').textContent=Math.floor(diff/60000)%60; document.getElementById('s').textContent=Math.floor(diff/1000)%60}
+function tick(){const now=new Date(); let diff=deadline-now; if(diff<=0){expired=true;diff=0;document.body.classList.add('expired');document.querySelectorAll('.add').forEach(b=>b.disabled=true);const submitBtn=document.getElementById('submitBtn');if(submitBtn){submitBtn.disabled=true;if(submitBtn.textContent!=='✓ Bestellung gesendet') submitBtn.textContent='Bestellschluss vorbei'}} ['d','h','m','s'].forEach(()=>{}); document.getElementById('d').textContent=Math.floor(diff/86400000); document.getElementById('h').textContent=Math.floor(diff/3600000)%24; document.getElementById('m').textContent=Math.floor(diff/60000)%60; document.getElementById('s').textContent=Math.floor(diff/1000)%60}
 renderProducts(); updateCart(); tick(); setInterval(tick,1000);
 </script>
 </body>
