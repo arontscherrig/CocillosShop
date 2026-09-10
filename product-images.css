@@ -17,3 +17,9 @@
 #card-beanie .config .row,#card-bag .config .row,#card-glasses .config .row{display:none}
 #card-cap .config .row>div:first-child{display:none}
 #card-cap .config .row{grid-template-columns:1fr}
+
+/* Preorder items: no price display anywhere on the card/dropdown. */
+#card-bag .content>.priceTag,#card-glasses .content>.priceTag,
+#card-bag .configInner>.priceTag,#card-glasses .configInner>.priceTag,
+#card-bag .configInner>.hint,#card-glasses .configInner>.hint{display:none!important}
+#card-bag .desc::after,#card-glasses .desc::after{content:"Zum Vorbestellen";display:block;margin-top:12px;font-size:20px;font-weight:900;color:#fff}
