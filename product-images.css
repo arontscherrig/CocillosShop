@@ -11,4 +11,4 @@
 #card-cap .pic{background-image:url("images/cap.svg")}
 #card-beanie .pic{background-image:url("images/beanie.svg")}
 #card-bag .pic{background-image:url("images/bag.svg")}
-#card-glasses .pic{background-image:url("images/glasses.svg?v=4")}
+#card-glasses .pic{background-image:url("images/glasses.jpg?v=1");background-size:contain}
