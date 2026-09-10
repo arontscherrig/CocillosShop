@@ -23,3 +23,7 @@
 #card-bag .configInner>.priceTag,#card-glasses .configInner>.priceTag,
 #card-bag .configInner>.hint,#card-glasses .configInner>.hint{display:none!important}
 #card-bag .desc::after,#card-glasses .desc::after{content:"Zum Vorbestellen";display:block;margin-top:12px;font-size:20px;font-weight:900;color:#fff}
+
+/* Clearer wording beside the displayed product price. */
+.card .content>.priceTag small{font-size:0}
+.card .content>.priceTag small::after{content:"inkl. Logo";font-size:12px}
