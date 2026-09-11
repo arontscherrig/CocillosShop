@@ -70,8 +70,11 @@ const NAME_PRICE = 8.00;
 const deadline = new Date("2026-09-19T12:00:00+02:00");
 const CART_STORAGE_KEY = "cocillosCartV1";
 let expired = false;
+function getLogoPrice(p){return Number(p.logoPrice ?? LOGO_PRICE)}
+function getNamePrice(p){return Number(p.namePrice ?? NAME_PRICE)}
+function getFinishing(p){return p.finishing || FINISHING}
 const products = [
- {id:'tshirt', title:'T-Shirt Classic', articleNumber:'029360-99', base:13.00, rearLogoPrice:16.00, img:'👕', gender:true, sizes:['XS','S','M','L','XL','XXL','3XL','4XL'], name:true, desc:'Klassisches schwarzes T-Shirt mit Rundhalsausschnitt.'},
+ {id:'tshirt', title:'T-Shirt Classic', articleNumber:'029360-99', base:13.00, finishing:'Druck Brust links', logoPrice:13.00, namePrice:10.00, rearLogoPrice:16.00, img:'👕', gender:true, sizes:['XS','S','M','L','XL','XXL','3XL','4XL'], name:true, desc:'Klassisches schwarzes T-Shirt mit Rundhalsausschnitt.'},
  {id:'ziphoodie', title:'Kapuzenjacke Basic', articleNumber:'021035-99', base:35.00, rearLogoPrice:72.00, img:'🧥', gender:true, sizes:['XS','S','M','L','XL','XXL','3XL'], name:true, desc:'Schwarze Sweatjacke mit Kapuze und Kängurutasche.'},
  {id:'hoodie', title:'Hoody Classic', articleNumber:'021031-99', base:30.00, rearLogoPrice:72.00, img:'🧥', gender:false, sizes:['XS','S','M','L','XL','XXL','3XL'], name:true, desc:'Schwarzer Kapuzensweater mit Kängurutasche.'},
  {id:'fleece', title:'Fleece Jacke Basic', articleNumber:'023914-99', base:35.00, rearLogoPrice:72.00, img:'🧥', gender:true, sizes:['XS','S','M','L','XL','XXL','3XL','4XL'], name:true, desc:'Microfleece-Jacke mit Stehkragen und Reissverschlusstaschen.'},
@@ -123,15 +126,15 @@ function renderProducts(){
   root.insertAdjacentHTML('beforeend',`<div class="card" id="card-${p.id}">
     <div class="pic">${p.img}<br><span style="font-size:13px;margin-left:8px">Produktbild folgt</span></div>
     <div class="content"><h3>${p.title}</h3><div class="art">${p.articleNumber}</div><div class="desc">${p.desc || ''}</div>
-    ${p.preorder?`<div class="priceTag">Zum Vorbestellen</div>`:`<div class="priceTag">ab CHF <span>${money(p.base + LOGO_PRICE)}</span> <small>inkl. Logo</small></div>`}
+    ${p.preorder?`<div class="priceTag">Zum Vorbestellen</div>`:`<div class="priceTag">ab CHF <span>${money(p.base + getLogoPrice(p))}</span> <small>inkl. Logo</small></div>`}
     <details class="config"><summary>Produkt auswählen</summary><div class="configInner">
       <div class="row">${hideGender?`<input type="hidden" id="gender-${p.id}" value="Unisex">`:(p.gender?`<div><label>Schnitt</label><select id="gender-${p.id}" onchange="updateCardPrice('${p.id}')"><option>Herren</option><option>Damen</option></select></div>`:`<div><label>Schnitt</label><select id="gender-${p.id}" disabled><option>Unisex</option></select></div>`)}
       ${hideSize?`<input type="hidden" id="size-${p.id}" value="${p.sizes[0]}">`:`<div><label>Grösse</label><select id="size-${p.id}" onchange="updateCardPrice('${p.id}')">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></div>`}</div>
       <label>Menge</label><input id="qty-${p.id}" type="number" min="1" step="1" value="0" data-error-id="error-qty-${p.id}" oninput="clearFieldError(this);updateCardPrice('${p.id}')" />
       <div class="fieldErrorText" id="error-qty-${p.id}" aria-live="polite"></div>
-      ${p.name?`<label>Name auf Brust rechts</label><input id="name-${p.id}" placeholder="leer lassen = kein Name" oninput="updateCardPrice('${p.id}')"/><div class="hint">Name optional: + CHF ${money(NAME_PRICE)} pro Stück.</div>`:''}
+      ${p.name?`<label>Name auf Brust rechts</label><input id="name-${p.id}" placeholder="leer lassen = kein Name" oninput="updateCardPrice('${p.id}')"/><div class="hint">Name optional: + CHF ${money(getNamePrice(p))} pro Stück.</div>`:''}
       ${p.rearLogoPrice?`<label class="checkOption"><input id="backlogo-${p.id}" type="checkbox" onchange="updateCardPrice('${p.id}')"><span>Grosses Logo auf Rücken (+ CHF ${money(p.rearLogoPrice)} / Stück)</span></label>`:''}
-      ${p.preorder?`<div class="priceTag">Zum Vorbestellen</div><div class="hint">Preis folgt nach der Vorbestellung.</div>`:`<div class="priceTag">CHF <span id="price-${p.id}">${money(0)}</span> <small>aktuell</small></div><div class="hint">Grundpreis + ${FINISHING} CHF ${money(LOGO_PRICE)}${p.name?' + optional Name CHF '+money(NAME_PRICE):''}</div>`}
+      ${p.preorder?`<div class="priceTag">Zum Vorbestellen</div><div class="hint">Preis folgt nach der Vorbestellung.</div>`:`<div class="priceTag">CHF <span id="price-${p.id}">${money(0)}</span> <small>aktuell</small></div><div class="hint">Grundpreis + ${getFinishing(p)} CHF ${money(getLogoPrice(p))}${p.name?' + optional Name CHF '+money(getNamePrice(p)):''}</div>`}
       <button class="add" id="add-${p.id}" onclick="addToCart('${p.id}')">In den Warenkorb</button>
     </div></details></div></div>`);
  });
@@ -142,7 +145,7 @@ function calcItem(p){
  const nameEl=document.getElementById('name-'+p.id); const personalization=nameEl?nameEl.value.trim():'';
  const backLogoEl=document.getElementById('backlogo-'+p.id); const backLogo=!!(backLogoEl&&backLogoEl.checked);
  const backLogoPrice=backLogo?Number(p.rearLogoPrice||0):0;
- const unit=p.base + LOGO_PRICE + (personalization?NAME_PRICE:0) + backLogoPrice;
+ const unit=p.base + getLogoPrice(p) + (personalization?getNamePrice(p):0) + backLogoPrice;
  return {qty, unit, total:unit*qty, personalization, backLogo, backLogoPrice};
 }
 function updateCardPrice(id){const p=products.find(x=>x.id===id); const c=calcItem(p); const el=document.getElementById('price-'+id); if(el) el.textContent=money(Math.max(0,c.total))}
@@ -163,7 +166,7 @@ function addToCart(id){
  if(!Number.isInteger(c.qty)){showFieldError(qtyEl,'Bitte eine ganze Stückzahl eingeben.');return;}
  clearFieldError(qtyEl);
  const btn=document.getElementById('add-'+id);
- cart.push({product:p.title, articleNumber:p.articleNumber, image:p.img, gender:document.getElementById('gender-'+id).value, size:document.getElementById('size-'+id).value, quantity:c.qty, finishing:c.backLogo?FINISHING+' + Grosses Logo auf Rücken':FINISHING, personalization:c.personalization, backLogo:c.backLogo, backLogoPrice:c.backLogoPrice, unitPrice:c.unit, totalPrice:c.total, preorder:!!p.preorder});
+ cart.push({product:p.title, articleNumber:p.articleNumber, image:p.img, gender:document.getElementById('gender-'+id).value, size:document.getElementById('size-'+id).value, quantity:c.qty, finishing:c.backLogo?getFinishing(p)+' + Grosses Logo auf Rücken':getFinishing(p), personalization:c.personalization, backLogo:c.backLogo, backLogoPrice:c.backLogoPrice, unitPrice:c.unit, totalPrice:c.total, preorder:!!p.preorder});
  updateCart();
  if(btn){
   clearTimeout(btn._resetTimer); clearTimeout(btn._finishTimer);
